@@ -5,40 +5,17 @@ var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var fs = require("fs");
 
-var userCommand = function(caseData, functionData) {
-  switch (caseData) {
 
-    case "concert-this":
-      findConcert(functionData);
-    break;
+var findConcert = function(artist) {
 
-    case "spotify-this-song":
-      spotifyAPI(functionData);
-      break;
-  
-    case "movie-this":
-    omdbAPI(functionData);
-    break;
-
-    case "do-what-it-says":
-    doWhatItSays();
-    break;
-    default:
-    console.log("Sure, whatever you say!");
-  }
-};
-
-
-
-var findConcert = function(artists) {
-
-axios.get("https://rest.bandsintown.com/artists/" + (artists || 'Rolling Stones') +"/events?app_id=847492e9-710f-445d-81dc-db9b772ae682")
+axios.get("https://rest.bandsintown.com/artists/" + (artist || 'Rolling Stones') +"/events?app_id=847492e9-710f-445d-81dc-db9b772ae682")
 .then(
   function(response) {
-    console.log("Name of the venue:  " + venue.data);
-    console.log("Venue location:  " + location.data);
+    console.log("Name of the venue:  " + response.venue.data);
+    console.log("Venue location:  " + response.location.data);
     console.log("Date of the Event:  " + jsonData.moment(MMDDYYYY));
-    console.log(findConcert);
+    console.log(findConcert.response);
+    console.log("************************************************");
   })
   .catch(
   function(error) {
@@ -46,7 +23,7 @@ axios.get("https://rest.bandsintown.com/artists/" + (artists || 'Rolling Stones'
   }
 );
 }
-
+  
  
 
 var spotifyAPI = function(songName) {
@@ -74,7 +51,7 @@ var spotifyAPI = function(songName) {
         console.log("Release date: " + songs[i].album.release_date);
         console.log("Album type: " + songs[i].album.album_type);
         console.log("Preview song: " + songs[i].preview_url);
-        console.log("----------------------------------------------------");
+        console.log("*****************************************************************");
       }
     }
   );
@@ -84,13 +61,10 @@ var spotifyAPI = function(songName) {
 var omdbAPI = function(movieName) {
   if (movieName === undefined) {
     movieName = "Mr. Nobody";
-  }
-  var url =
-  "http://www.omdbapi.com/?t=" +
-  movieName +
-  "&y=&plot=full&tomatoes=true&apikey=trilogy";
-  request(urlHit, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
+  };
+  axios.get("http://www.omdbapi.com/?t="+ movieName +"&y=&plot=full&tomatoes=true&apikey=trilogy")
+  .then(
+    function() {
       var jsonData = JSON.parse(body);
       console.log("Movie Title: " + jsonData.Title);
       console.log("Year Release: " + jsonData.Year);
@@ -100,14 +74,19 @@ var omdbAPI = function(movieName) {
       console.log("Language: " + jsonData.Language);
       console.log("Plot: " + jsonData.Plot);
       console.log("Actors: " + jsonData.Actors);
-      
+      console.log("************************************************");
+    },
+    function(err) {
+    if(err.response) {
+      console.log(err.reponse.data);
+    } else {
+      console.log(err, error.message);
     }
   });
-};
+}
 
 
-
-var doWhatItSays = function () {
+var doWhatItSays = function() {
   fs.readFile('random.txt', 'utf8', function(err, data){
     console.log(data);
     var dataArr = data.split(' ');
@@ -117,20 +96,45 @@ var doWhatItSays = function () {
       userCommand(dataArr[3]);
     }
   });
-};
-
-userCommand = process.argv[2]; 
-  var userInput = process.argv.slice(3).join(' ');
-  console.log(userInput);
+  console.log(userCommand + doWhatItSays + "Doing what you said!");
+}
 
 
-fs.writeFile("log.txt", userCommand, function(err) {
-  console.log("****************************Request********************************");
+var userCommand = function(caseData, functionData) {
+  switch (caseData) {
 
-   if (err) {
-    return console.log(err);
+    case "concert-this":
+      findConcert(functionData);
+    break;
+
+    case "spotify-this-song":
+      spotifyAPI(functionData);
+      break;
+  
+    case "movie-this":
+      omdbAPI(functionData);
+    break;
+
+    case "do-what-it-says":
+      doWhatItSays();
+    break;
+    default:
+    console.log("Sure, whatever you say!");
   }
+}
 
-  console.log("log.txt was updated!");
+  userCommand = process.argv[2]; 
+  var userInput = process.argv.slice(3).join(" ");
+  var runThis = function(userCommand, userInput) {
+   
+  };
 
-});
+runThis(process.argv[2], process.argv[3]);
+console.log(userCommand +" "+ userInput + " searching");  
+
+fs.writeFile("log.txt", userCommand, function() {
+  
+  console.log("****************************Request********************************");
+ 
+})
+console.log(findConcert.response || spotifyAPI.songName || omdbAPI.jsonData || doWhatItSays.userInput);
