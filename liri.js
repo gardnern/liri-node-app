@@ -4,26 +4,31 @@ var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var fs = require("fs");
+var moment = require('moment');
+
 
 
 var findConcert = function(artist) {
 
-axios.get("https://rest.bandsintown.com/artists/" + (artist || 'Rolling Stones') +"/events?app_id=847492e9-710f-445d-81dc-db9b772ae682")
-.then(
-  function(response) {
-    console.log("Name of the venue:  " + response.venue.data);
-    console.log("Venue location:  " + response.location.data);
-    console.log("Date of the Event:  " + jsonData.moment(MMDDYYYY));
-    console.log(findConcert.response);
-    console.log("************************************************");
-  })
-  .catch(
-  function(error) {
-    console.log(error)
-  }
-);
+axios.get("https://rest.bandsintown.com/artists/" + (artist || 'Rob Zombie') +"/events?app_id=847492e9-710f-445d-81dc-db9b772ae682")
+  .then(
+    function(response) {
+      var data = response.data;
+      data.datetime = moment().format("L");
+      // console.log(response.data);
+      for (var i = 0; i < data.length; i++) {
+
+        console.log("Name of the venue:  " + data[i].venue.name);
+        console.log("Venue location:  " + data[i].venue.city + " " + data[i].venue.country);
+        console.log("Date of the Event:  " + data[i].datetime);
+        console.log("****************************************************************************************************");
+      }
+     }).catch(
+    function(error) {
+      console.log(error)
+    }
+  )
 }
-  
  
 
 var spotifyAPI = function(songName) {
@@ -51,7 +56,7 @@ var spotifyAPI = function(songName) {
         console.log("Release date: " + songs[i].album.release_date);
         console.log("Album type: " + songs[i].album.album_type);
         console.log("Preview song: " + songs[i].preview_url);
-        console.log("*****************************************************************");
+        console.log("*********************************************************************************************");
       }
     }
   );
@@ -59,10 +64,10 @@ var spotifyAPI = function(songName) {
 
 
 var omdbAPI = function(movieName) {
- console.log('This would make it pretty sure',movieName)
+ console.log('This would make it pretty sure', movieName)
   if (movieName === undefined) {
     movieName = "Mr. Nobody";
-  };
+  }
   axios.get("http://www.omdbapi.com/?t="+ movieName +"&plot=full&tomatoes=true&apikey=trilogy")
   .then(
     function(response) {
@@ -71,12 +76,12 @@ var omdbAPI = function(movieName) {
       console.log("Movie Title: " + jsonData.Title);
       console.log("Year Release: " + jsonData.Year);
       console.log("IMDB Rating: " + jsonData.imdbRating);
-      jsonData.Ratings[1] && console.log("Rotton Tomatoes Rating: " + jsonData.Ratings[1].Value);
+      jsonData.Ratings[1] && console.log("Rotten Tomatoes Rating: " + jsonData.Ratings[1].Value);
       console.log("Country: " + jsonData.Country);
       console.log("Language: " + jsonData.Language);
       console.log("Plot: " + jsonData.Plot);
       console.log("Actors: " + jsonData.Actors);
-      console.log("************************************************");
+      console.log("*************************************************************************************");
     }).catch(
     function(err) {
       console.log(err);
@@ -105,27 +110,22 @@ var userCommandInterface = function(caseData, functionData) {
     default:
     console.log("Sure, whatever you say!");
   }
-  fs.appendFile("log.txt",'command: ' +  caseData + ' Args' + functionData + ' at the time ' + Date.now() + '\n', function(err){
-    console.log(err); 
-  });
+    var today = moment().format('D MMM, YYYY');
+    fs.appendFile("log.txt",'command: ' +  caseData + ' Args' + functionData + ' at this date ' + today + '\n', function(err){
+      console.log(err); 
+    });
 }
 
-  var userInputCommand = process.argv[2]; 
-  var userInput = process.argv.slice(3).join(" ");
+    var userInputCommand = process.argv[2]; 
+    var userInput = process.argv.slice(3).join(" ");
  
 
 userCommandInterface(userInputCommand, userInput);
-//console.log(userCommand +" "+ userInput + " searching");  
-
- function doWhatItSays() {
-  fs.readFile('random.txt', 'utf8', function(err, data){
-    console.log(data);
-    var dataArr = data.split(',');
-    userCommandInterface(dataArr[0], dataArr[1]);
-    
-  });
-  //console.log(userCommand + doWhatItSays + "Doing what you said!");
-}
-
-
-// console.log(findConcert.response || spotifyAPI.songName || omdbAPI.jsonData || doWhatItSays.userInput);
+  function doWhatItSays() {
+      fs.readFile('random.txt', 'utf8', function(err, data){
+      console.log(data);
+      var dataArr = data.split(',');
+      userCommandInterface(dataArr[0], dataArr[1]);
+      
+    });
+  }
