@@ -59,48 +59,32 @@ var spotifyAPI = function(songName) {
 
 
 var omdbAPI = function(movieName) {
+ console.log('This would make it pretty sure',movieName)
   if (movieName === undefined) {
     movieName = "Mr. Nobody";
   };
-  axios.get("http://www.omdbapi.com/?t="+ movieName +"&y=&plot=full&tomatoes=true&apikey=trilogy")
+  axios.get("http://www.omdbapi.com/?t="+ movieName +"&plot=full&tomatoes=true&apikey=trilogy")
   .then(
-    function() {
-      var jsonData = JSON.parse(body);
+    function(response) {
+      
+      var jsonData = response.data;
       console.log("Movie Title: " + jsonData.Title);
       console.log("Year Release: " + jsonData.Year);
       console.log("IMDB Rating: " + jsonData.imdbRating);
-      console.log("Rotton Tomatoes Rating: " + jsonData.Ratings[1].Value);
+      jsonData.Ratings[1] && console.log("Rotton Tomatoes Rating: " + jsonData.Ratings[1].Value);
       console.log("Country: " + jsonData.Country);
       console.log("Language: " + jsonData.Language);
       console.log("Plot: " + jsonData.Plot);
       console.log("Actors: " + jsonData.Actors);
       console.log("************************************************");
-    },
+    }).catch(
     function(err) {
-    if(err.response) {
-      console.log(err.reponse.data);
-    } else {
-      console.log(err, error.message);
-    }
+      console.log(err);
   });
 }
 
 
-var doWhatItSays = function() {
-  fs.readFile('random.txt', 'utf8', function(err, data){
-    console.log(data);
-    var dataArr = data.split(' ');
-    if (dataArr.length ===  2) {
-      userCommand(dataArr[0], dataArr[1]);
-    } else if (dataArr.length === 1) {
-      userCommand(dataArr[3]);
-    }
-  });
-  console.log(userCommand + doWhatItSays + "Doing what you said!");
-}
-
-
-var userCommand = function(caseData, functionData) {
+var userCommandInterface = function(caseData, functionData) {
   switch (caseData) {
 
     case "concert-this":
@@ -121,20 +105,27 @@ var userCommand = function(caseData, functionData) {
     default:
     console.log("Sure, whatever you say!");
   }
+  fs.appendFile("log.txt",'command: ' +  caseData + ' Args' + functionData + ' at the time ' + Date.now() + '\n', function(err){
+    console.log(err); 
+  });
 }
 
-  userCommand = process.argv[2]; 
+  var userInputCommand = process.argv[2]; 
   var userInput = process.argv.slice(3).join(" ");
-  var runThis = function(userCommand, userInput) {
-   
-  };
-
-runThis(process.argv[2], process.argv[3]);
-console.log(userCommand +" "+ userInput + " searching");  
-
-fs.writeFile("log.txt", userCommand, function() {
-  
-  console.log("****************************Request********************************");
  
-})
-console.log(findConcert.response || spotifyAPI.songName || omdbAPI.jsonData || doWhatItSays.userInput);
+
+userCommandInterface(userInputCommand, userInput);
+//console.log(userCommand +" "+ userInput + " searching");  
+
+ function doWhatItSays() {
+  fs.readFile('random.txt', 'utf8', function(err, data){
+    console.log(data);
+    var dataArr = data.split(',');
+    userCommandInterface(dataArr[0], dataArr[1]);
+    
+  });
+  //console.log(userCommand + doWhatItSays + "Doing what you said!");
+}
+
+
+// console.log(findConcert.response || spotifyAPI.songName || omdbAPI.jsonData || doWhatItSays.userInput);

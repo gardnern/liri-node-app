@@ -1,1 +1,5 @@
-movie-this
+command: movie-this Argsterminator at the time 1558411694219
+command: spotify-this-song Argshotel california at the time 1558411700918
+command: do-what-it-says Argsdance at the time 1558411707599
+command: spotify-this-song ArgsI Want it That Way at the time 1558411707615
+command: spotify-this-song Argsalways at the time 1558411898423
