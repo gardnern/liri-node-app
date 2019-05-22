@@ -78,3 +78,17 @@ command: movie-this Argsshark at this date 21 May, 2019
 command: do-whar-it-says Argsdance at this date 21 May, 2019
 command: do-what-it-says Argsdance at this date 21 May, 2019
 command: spotify-this-song ArgsI Want it That Way at this date 21 May, 2019
+command: concert-this Argsrob zombie at this date 21 May, 2019
+command: spotify-this-song Argsdemons at this date 21 May, 2019
+command: movie-this Argsshark at this date 21 May, 2019
+command: do-what-it-says Argsdance at this date 21 May, 2019
+command: spotify-this-song ArgsI Want it That Way at this date 21 May, 2019
+command: do-what-it-says Args at this date 21 May, 2019
+command: spotify-this-song ArgsI Want it That Way at this date 21 May, 2019
+command: movie-this Args at this date 21 May, 2019
+command: concert-this Args at this date 21 May, 2019
+command: concert-this Argsrob zombie at this date 21 May, 2019
+command: spotify-this-song Argsbohemian raphsody at this date 21 May, 2019
+command: movie-this Argsstar wars at this date 21 May, 2019
+command: do-what-it-says Args at this date 21 May, 2019
+command: spotify-this-song ArgsI Want it That Way at this date 21 May, 2019
