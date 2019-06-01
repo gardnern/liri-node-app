@@ -11,9 +11,10 @@ LIRI will search Spotify for songs, Bands in Town for concerts, and OMDB for mov
      * Venue location
      * Date of the Event (use moment to format this as "MM/DD/YYYY")
 
-## Result
+## Results
 
-
+https://github.com/gardnern/liri-node-app/blob/master/ImagesResult/spotify-this-song.JPG
+https://github.com/gardnern/liri-node-app/blob/master/ImagesResult/concert-this.JPG
 
 
 
@@ -36,7 +37,7 @@ LIRI will search Spotify for songs, Bands in Town for concerts, and OMDB for mov
        * Actors in the movie.
 
 # Result
-
+https://github.com/gardnern/liri-node-app/blob/master/ImagesResult/movie-this.JPG
 
 
 
@@ -53,3 +54,10 @@ LIRI will search Spotify for songs, Bands in Town for concerts, and OMDB for mov
      * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
 
      * Edit the text in random.txt to test out the feature for movie-this and concert-this.
+# Result
+https://github.com/gardnern/liri-node-app/blob/master/ImagesResult/do-what-it-says.JPG
+
+
+
+#Log File Result
+https://github.com/gardnern/liri-node-app/blob/master/ImagesResult/logFileImage.JPG
